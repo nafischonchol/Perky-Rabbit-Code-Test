@@ -10,5 +10,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::resource('products', 'App\Http\Controllers\ProductController');
+        Route::resource('stocks', 'App\Http\Controllers\StockController');
     });
+
 });

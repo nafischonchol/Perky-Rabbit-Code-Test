@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('monitors', function (Blueprint $table) {
             $table->id();
-            $table->string("site_name");
-            $table->string("site_url");
+            $table->string('site_name');
+            $table->string('site_url');
             $table->boolean('status')->default(0);
-            $table->text("response");
-            $table->string("response_code");
-            $table->json("meta")->nullable();
+            $table->text('response');
+            $table->string('response_code');
+            $table->json('meta')->nullable();
             $table->timestamps();
         });
     }

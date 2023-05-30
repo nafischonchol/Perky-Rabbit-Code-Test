@@ -17,11 +17,11 @@ class MonitorFactory extends Factory
     public function definition(): array
     {
         return [
-            "site_name" => $this->faker->name,
-            "site_url" => $this->faker->url,
-            "status" => 0,
-            "response" => $this->faker->text(),
-            "response_code" => 500
+            'site_name' => $this->faker->name,
+            'site_url' => $this->faker->url,
+            'status' => 0,
+            'response' => $this->faker->text(),
+            'response_code' => 500,
         ];
     }
 }

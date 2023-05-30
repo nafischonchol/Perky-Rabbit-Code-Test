@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use DB;
 
 class StockController extends Controller
 {
@@ -32,7 +33,7 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        return \json_encode("wow");
+        return \json_encode($request->input());
     }
 
     /**
@@ -65,5 +66,24 @@ class StockController extends Controller
     public function destroy(Stock $stock)
     {
         //
+    }
+
+    function getCurrentStock($product_id)
+    {
+        try {
+            $data = DB::table('stocks')
+            ->selectRaw('SUM(sign * qty) as quantity')
+            ->where('product_id', $product_id)
+            ->groupBy('product_id')
+            ->first();
+            if($data)
+                $response = ['result' => 'Success', 'mgs' => 'Current Stock of Products', 'data' => $data];
+            else
+                $response = ['result' => 'Stock Not Found', 'mgs' => 'Current Stock of Products', 'data' => $data];
+        } catch (\Exception $e) {
+            $response = ['result' => 'Error', 'mgs' => $e->getMessage(), 'data' => null];
+        }
+
+        return \json_encode($response);
     }
 }

@@ -31,7 +31,7 @@
                             </select>
                         </td>
                         <td class="py-4 whitespace-nowrap">
-                            <select v-model="row.productName" class="form-control">
+                            <select v-model="row.productName" class="form-control" @change="fetchCurrentQuantity(row)">
                                 <option value="">Select Product</option>
                                 <option v-for="product in row.products" :value="product.id">{{ product.name }}</option>
                             </select>
@@ -40,7 +40,7 @@
                             <input type="number" v-model="row.quantity" />
                         </td>
                         <td class="py-4 whitespace-nowrap">
-                            <input type="number" v-model="row.currentQuantity" />
+                            <input type="number" v-model="row.currentQuantity" readonly/>
                         </td>
                         <td class="py-4 whitespace-nowrap">
                             <button @click="removeRow(index)" v-if="index > 0"
@@ -100,21 +100,20 @@ const removeRow = (index) => {
     }
 };
 
-const updateProductOptions = async (row) => {
+const updateProductOptions = async (row) =>
+{
     const category = row.category;
 
     if (category) {
         try {
             const response = await fetch(`/admin/products-by-category/${category}`);
             const data = await response.json();
-            console.log(data);
             if (data.result == 'Success') {
 
                 const products = data.data.map((item) => ({
                     id: item.id,
                     name: item.name,
                 }));
-                console.log(products);
 
                 productsByCategory[category] = products;
                 row.products = products;
@@ -131,6 +130,26 @@ const updateProductOptions = async (row) => {
         row.products = [];
         row.productName = '';
     }
+};
+
+const fetchCurrentQuantity = async (row) => {
+  const productId = row.productName;
+    console.log(productId)
+  if (productId)
+  {
+    try {
+      const response = await fetch(`/admin/current-stocks/${productId}`);
+      const result = await response.json();
+        console.log(result);
+      if (result.result === 'Success') {
+        row.currentQuantity = result.data.quantity;
+      } else {
+        row.currentQuantity = 0;
+      }
+    } catch (error) {
+      console.error('Error fetching current quantity:', error);
+    }
+  }
 };
 
 

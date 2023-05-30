@@ -14,8 +14,7 @@
             :class="{ hidden: isUserDropdownHidden }"
           >
             <a href="#" class="block px-4 py-2 text-white hover:bg-gray-700">Profile</a>
-            <a href="#" class="block px-4 py-2 text-white hover:bg-gray-700">Logout</a>
-            <a href="#" class="block px-4 py-2 text-white hover:bg-gray-700">Settings</a>
+            <Link href="/logout" method="post" class="block px-4 py-2 text-white hover:bg-gray-700">Logout</Link>
           </div>
         </div>
       </div>
@@ -36,6 +35,7 @@
 <script setup>
 import {Head} from "@inertiajs/vue3";
 import Sidebar from '@/components/Sidebar.vue';
+import { Link } from '@inertiajs/vue3';
 </script>
 
 <script>

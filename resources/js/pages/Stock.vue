@@ -8,6 +8,9 @@
         </div>
 
         <div class="bg-white p-6 rounded-md">
+            <div v-if="successMessage" class="bg-green-100 text-green-700 px-4 py-2 mt-4 rounded">
+                {{ successMessage }}
+            </div>
             <h3 class="text-lg font-bold mb-4">Stock Create</h3>
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-200">
@@ -50,12 +53,18 @@
             </table>
             <div class="add-new-button">
                 <button @click="addRow"
-                    class="bg-green-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded transition duration-300">Add
-                    New</button>
+                    class="bg-green-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded transition duration-300">
+                    Add New
+                </button>
             </div>
+            <button @click="submitForm"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded transition duration-300">
+                Submit
+            </button>
         </div>
     </div>
 </template>
+
 <script setup>
 import { ref, reactive } from 'vue';
 import { defineProps } from 'vue';
@@ -73,6 +82,7 @@ const rows = ref([
 ]);
 
 const productsByCategory = reactive({});
+const successMessage = ref('');
 
 const addRow = () => {
     rows.value.push({
@@ -115,12 +125,53 @@ const updateProductOptions = async (row) => {
         } catch (error) {
             console.error('Error fetching product data:', error);
         }
-    } else {
+    }
+    else {
         // Reset the product options if no category is selected
         row.products = [];
         row.productName = '';
     }
 };
+
+
+const submitForm = () => {
+    const formData = {
+        data: rows.value,
+        _token: document.querySelector('meta[name="csrf-token"]').content, // Retrieve CSRF token
+    };
+
+    fetch('/admin/stocks', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': formData._token,
+        },
+        body: JSON.stringify(formData),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            successMessage.value = 'Stock has been stored successfully.';
+            resetForm();
+        })
+        .catch((error) => {
+            console.error('Error submitting form:', error);
+            // Handle error case
+        });
+};
+
+const resetForm = () => {
+    rows.value = [
+        {
+            productName: '',
+            quantity: 0,
+            currentQuantity: 0,
+            category: '',
+            products: [],
+        },
+    ];
+};
+
 </script>
 
 

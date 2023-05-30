@@ -8,7 +8,7 @@
             :class="{ active: activeMenuItem === 'dashboard' }"
             @click="setActiveMenuItem('dashboard')"
           >
-            <i class="fas fa-users"></i>
+          <i class="fas fa-home"></i>
             <span>Dashboard</span>
           </a>
         </li>
@@ -19,7 +19,7 @@
             :class="{ active: activeMenuItem === 'users' }"
             @click="setActiveMenuItem('users')"
           >
-            <i class="fas fa-shopping-cart"></i>
+          <i class="fas fa-user"></i>
             <span>Users</span>
           </a>
         </li>

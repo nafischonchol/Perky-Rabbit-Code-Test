@@ -24,13 +24,13 @@
                         <td class="py-4 whitespace-nowrap">
                             <select v-model="row.category" @change="updateProductOptions(row)" class="form-control">
                                 <option value="">Select Category</option>
-                                <option v-for="category in categories" :value="category">{{ category }}</option>
+                                <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
                             </select>
                         </td>
                         <td class="py-4 whitespace-nowrap">
                             <select v-model="row.productName" class="form-control">
                                 <option value="">Select Product</option>
-                                <option v-for="product in row.products" :value="product">{{ product }}</option>
+                                <option v-for="product in row.products" :value="product.id">{{ product.name }}</option>
                             </select>
                         </td>
                         <td class="py-4 whitespace-nowrap">
@@ -56,12 +56,13 @@
         </div>
     </div>
 </template>
-
 <script setup>
 import { ref, reactive } from 'vue';
+import { defineProps } from 'vue';
+
+defineProps(['categories']);
 
 const rows = ref([
-    // Initial row
     {
         productName: '',
         quantity: 0,
@@ -71,11 +72,7 @@ const rows = ref([
     },
 ]);
 
-const categories = ['Shirt', 'T-Shirt'];
-const productsByCategory = reactive({
-    Shirt: ['Product 1', 'Product 2', 'Product 3'], // Product options for Shirt category
-    'T-Shirt': ['Product A', 'Product B', 'Product C'], // Product options for T-Shirt category
-});
+const productsByCategory = reactive({});
 
 const addRow = () => {
     rows.value.push({
@@ -93,17 +90,43 @@ const removeRow = (index) => {
     }
 };
 
-const updateProductOptions = (row) => {
+const updateProductOptions = async (row) => {
     const category = row.category;
-    row.products = productsByCategory[category] || [];
-    row.productName = ''; // Reset the selected product when the category changes
+
+    if (category) {
+        try {
+            const response = await fetch(`/admin/products-by-category/${category}`);
+            const data = await response.json();
+            console.log(data);
+            if (data.result == 'Success') {
+
+                const products = data.data.map((item) => ({
+                    id: item.id,
+                    name: item.name,
+                }));
+                console.log(products);
+
+                productsByCategory[category] = products;
+                row.products = products;
+                row.productName = ''; // Reset the selected product when the category changes
+            } else {
+                console.error('Error fetching product data:', data.mgs);
+            }
+        } catch (error) {
+            console.error('Error fetching product data:', error);
+        }
+    } else {
+        // Reset the product options if no category is selected
+        row.products = [];
+        row.productName = '';
+    }
 };
-
-
 </script>
+
 
 <style>
 .add-new-button {
     text-align: right;
     margin-top: 10px;
-}</style>
+}
+</style>

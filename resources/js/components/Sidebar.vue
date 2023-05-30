@@ -24,7 +24,7 @@
           </a>
         </li>
         <li>
-          <a
+          <Link
             href="#"
             class="flex items-center space-x-2 text-gray-300 hover:text-white hover:bg-gray-700"
             :class="{ active: activeMenuItem === 'products' }"
@@ -32,7 +32,7 @@
           >
             <i class="fas fa-shopping-bag"></i>
             <span>Products</span>
-          </a>
+        </Link>
         </li>
         <li>
           <a
@@ -51,6 +51,8 @@
 
 
   <script>
+  import Link from '@/components/Link.vue';
+
   export default {
     props: {
       activeMenuItem: {

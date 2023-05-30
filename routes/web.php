@@ -9,3 +9,7 @@ Route::get('/', function () {
 });
 
 
+Route::prefix('admin')->group(function () {
+    Route::resource('products', 'App\Http\Controllers\ProductController');
+});
+

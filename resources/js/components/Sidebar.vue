@@ -34,7 +34,7 @@
           <span>Products</span>
         </Link>
         <Link
-          href="/admin/stocks"
+          href="/admin/stocks/create"
           class="flex items-center space-x-2 text-gray-300 hover:text-white hover:bg-gray-700"
           :class="{ active: activeMenuItem === 'stocks' }"
           @click="setActiveMenuItem('stocks')"

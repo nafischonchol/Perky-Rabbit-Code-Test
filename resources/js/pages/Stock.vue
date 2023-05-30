@@ -31,10 +31,11 @@
                             </select>
                         </td>
                         <td class="py-4 whitespace-nowrap">
-                            <select v-model="row.productName" class="form-control" @change="fetchCurrentQuantity(row)">
+                            <select v-model="row.productName" class="form-control select-input" @change="selectProduct(index)">
                                 <option value="">Select Product</option>
-                                <option v-for="product in row.products" :value="product.id">{{ product.name }}</option>
+                                <option v-for="product in row.products" :value="product" :key="product.id">{{ product.name }}</option>
                             </select>
+                            <p v-if="row.selectedProductError" class="text-red-500">Product already selected in another row.</p>
                         </td>
                         <td class="py-4 whitespace-nowrap">
                             <input type="number" v-model="row.quantity" />
@@ -131,16 +132,32 @@ const updateProductOptions = async (row) =>
         row.productName = '';
     }
 };
+const selectProduct = (index) => {
+  const selectedProduct = rows.value[index].productName;
+
+  const isProductSelected = rows.value.some((r, i) => {
+    return i !== index && r.productName && r.productName.id === selectedProduct.id;
+  });
+
+  if (isProductSelected) {
+    // Reset the product selection and show an error message
+    rows.value[index].productName = '';
+    rows.value[index].selectedProductError = true;
+  } else {
+    // Fetch the current quantity for the selected product
+    fetchCurrentQuantity(rows.value[index]);
+  }
+};
 
 const fetchCurrentQuantity = async (row) => {
   const productId = row.productName;
-    console.log(productId)
   if (productId)
   {
     try {
+
+
       const response = await fetch(`/admin/current-stocks/${productId}`);
       const result = await response.json();
-        console.log(result);
       if (result.result === 'Success') {
         row.currentQuantity = result.data.quantity;
       } else {
@@ -198,5 +215,8 @@ const resetForm = () => {
 .add-new-button {
     text-align: right;
     margin-top: 10px;
+}
+.select-input {
+  width: 200px; /* Adjust the width as needed */
 }
 </style>

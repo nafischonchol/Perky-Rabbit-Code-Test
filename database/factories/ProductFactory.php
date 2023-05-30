@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Product;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
@@ -17,8 +16,7 @@ class ProductFactory extends Factory
         return [
             'name' => $faker->word,
             'price' => $faker->randomFloat(2, 0, 1000),
-            'category_id' => rand(1,20)
+            'category_id' => rand(1, 20),
         ];
     }
 }
-

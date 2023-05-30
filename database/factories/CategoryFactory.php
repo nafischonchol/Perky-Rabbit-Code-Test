@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Category;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 class CategoryFactory extends Factory
 {
     protected $model = Category::class;
@@ -14,7 +14,7 @@ class CategoryFactory extends Factory
         $faker = \Faker\Factory::create();
 
         return [
-            'name' => $faker->word
+            'name' => $faker->word,
         ];
     }
 }

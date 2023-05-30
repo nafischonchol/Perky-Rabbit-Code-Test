@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Category;
-use App\Models\Product;
 
 class StockController extends Controller
 {
@@ -16,7 +15,8 @@ class StockController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return Inertia::render("Stock",compact('categories'));
+
+        return Inertia::render('Stock', compact('categories'));
     }
 
     /**

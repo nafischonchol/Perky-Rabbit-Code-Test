@@ -19,7 +19,8 @@ class StockController extends Controller
 
     public function index()
     {
-
+        $history = $this->stockService->history();
+        return Inertia::render("StockHistory",compact('history'));
     }
 
     public function create()

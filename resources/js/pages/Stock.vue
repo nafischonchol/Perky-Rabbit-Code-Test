@@ -2,9 +2,9 @@
     <div>
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold">Stock</h2>
-            <a href="#"
+            <Link href="/admin/stocks"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded transition duration-300">Stock
-                List</a>
+                History</Link>
         </div>
 
         <div class="bg-white p-6 rounded-md">
@@ -71,6 +71,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 
 defineProps(['categories']);

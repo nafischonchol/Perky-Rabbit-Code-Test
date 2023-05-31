@@ -22,6 +22,11 @@ class StockService
 
     }
 
+    function history()
+    {
+        return $this->stockRepo->allDesc();
+    }
+
     function getCategories()
     {
         return $this->catRepo->all();

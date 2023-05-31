@@ -44,24 +44,16 @@ class ProductController extends Controller
         return Inertia::location('/admin/products');
     }
 
-    public function show(string $id)
-    {
-        //
-    }
 
-    public function edit(string $id)
+    public function delete($stock_id)
     {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
+        try {
+            $this->productService->delete($stock_id);
+        } catch(\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete item.');
+        }
+        return redirect()->back()->with('success', 'Item deleted successfully.');
     }
 
     public function productByCategory($category_id)

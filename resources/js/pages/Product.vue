@@ -13,6 +13,7 @@
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Product Name</th>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Category</th>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Price</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Action</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -21,7 +22,10 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ item.category ? item.category.name : 'N/A' }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">৳ {{item.price}} </td>
+                    <td class="px-6 py-4 whitespace-nowrap">৳{{item.price}} </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <Link :href="`/admin/product-delete/${item.id}`" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</Link>
+                    </td>
                 </tr>
             </tbody>
         </table>

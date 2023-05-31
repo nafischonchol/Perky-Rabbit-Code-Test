@@ -42,7 +42,7 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ item.created_at }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <Link :href="`/admin/delete/${item.id}`" class="bg-red-500 text-white py-2 px-4 rounded">Delete</Link>
+                        <Link :href="`/admin/stocks-delete/${item.id}`" class="bg-red-500 text-white py-2 px-4 rounded">Delete</Link>
                     </td>
                 </tr>
             </tbody>

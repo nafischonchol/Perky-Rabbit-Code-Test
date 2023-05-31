@@ -14,8 +14,10 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::resource('products', 'App\Http\Controllers\ProductController');
         Route::get('products-by-category/{category_id}', [ProductController::class, 'productByCategory']);
+        Route::get('product-delete/{product_id}', [ProductController::class,'delete']);
+
         Route::resource('stocks', 'App\Http\Controllers\StockController');
-        Route::get('delete/{stock_id}', [StockController::class,'delete']);
+        Route::get('stocks-delete/{stock_id}', [StockController::class,'delete']);
         Route::get('current-stocks/{stock_id}', [StockController::class, 'getCurrentStock']);
     });
 

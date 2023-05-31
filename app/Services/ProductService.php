@@ -23,6 +23,10 @@ class ProductService
         return $this->productRepo->allDesc();
     }
 
+    function productInfo($id)
+    {
+        return $this->productRepo->get($id);
+    }
     function store($data)
     {
         return $this->productRepo->store($data);
@@ -38,5 +42,10 @@ class ProductService
     function getCategories()
     {
         return $this->catRepo->all();
+    }
+
+    function delete($stock_id)
+    {
+        return $this->productRepo->delete($stock_id);
     }
 }

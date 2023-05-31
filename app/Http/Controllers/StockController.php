@@ -30,9 +30,6 @@ class StockController extends Controller
         return Inertia::render('Stock', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StockCreateRequest $request)
     {
         try {
@@ -45,20 +42,7 @@ class StockController extends Controller
         }
         return \json_encode($response);
     }
-    public function show(string $id)
-    {
-        echo "he";
-    }
 
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     public function delete($stock_id)
     {

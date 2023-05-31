@@ -31,17 +31,20 @@
                             </select>
                         </td>
                         <td class="py-4 whitespace-nowrap">
-                            <select v-model="row.productName" class="form-control select-input" @change="selectProduct(index)">
+                            <select v-model="row.productName" class="form-control select-input"
+                                @change="selectProduct(index)">
                                 <option value="">Select Product</option>
-                                <option v-for="product in row.products" :value="product" :key="product.id">{{ product.name }}</option>
+                                <option v-for="product in row.products" :value="product" :key="product.id">{{ product.name
+                                }}</option>
                             </select>
-                            <p v-if="row.selectedProductError" class="text-red-500">Product already selected in another row.</p>
+                            <p v-if="row.selectedProductError" class="text-red-500">Product already selected in another row.
+                            </p>
                         </td>
                         <td class="py-4 whitespace-nowrap">
                             <input type="number" v-model="row.quantity" />
                         </td>
                         <td class="py-4 whitespace-nowrap">
-                            <input type="number" v-model="row.currentQuantity" readonly/>
+                            <input type="number" v-model="row.currentQuantity" readonly />
                         </td>
                         <td class="py-4 whitespace-nowrap">
                             <button @click="removeRow(index)" v-if="index > 0"
@@ -71,47 +74,43 @@ import { ref, reactive } from 'vue';
 import { defineProps } from 'vue';
 
 defineProps(['categories']);
-
 const rows = ref([
-    {
-        productName: '',
-        quantity: 0,
-        currentQuantity: 0,
-        category: '',
-        products: [],
-    },
+  {
+    productName: '',
+    quantity: 0,
+    currentQuantity: 0,
+    category: '',
+    products: []
+  },
 ]);
 
 const productsByCategory = reactive({});
 const successMessage = ref('');
 
 const addRow = () => {
-    rows.value.push({
-        productName: '',
-        quantity: 0,
-        currentQuantity: 0,
-        category: '',
-        products: [],
-    });
+  rows.value.push({
+    productName: '',
+    quantity: 0,
+    currentQuantity: 0,
+    category: '',
+    products: [],
+  });
 };
 
 const removeRow = (index) => {
-    if (index > 0) {
-        rows.value.splice(index, 1);
-    }
+  if (index > 0) {
+    rows.value.splice(index, 1);
+  }
 };
 
-const updateProductOptions = async (row) =>
-{
+const updateProductOptions = async (row) => {
     const category = row.category;
 
     if (category) {
-        try
-        {
+        try {
             const response = await fetch(`/admin/products-by-category/${category}`);
             const data = await response.json();
-            if (data.result == 'Success')
-            {
+            if (data.result == 'Success') {
 
                 const products = data.data.map((item) => ({
                     id: item.id,
@@ -136,64 +135,63 @@ const updateProductOptions = async (row) =>
     }
 };
 const selectProduct = (index) => {
-  const selectedProduct = rows.value[index].productName;
+    const selectedProduct = rows.value[index].productName;
 
-  const isProductSelected = rows.value.some((r, i) => {
-    return i !== index && r.productName && r.productName.id === selectedProduct.id;
-  });
+    const isProductSelected = rows.value.some((r, i) => {
+        return i !== index && r.productName && r.productName.id === selectedProduct.id;
+    });
 
-  if (isProductSelected) {
-    // Reset the product selection and show an error message
-    rows.value[index].productName = '';
-    rows.value[index].selectedProductError = true;
-  } else {
-    // Fetch the current quantity for the selected product
-    fetchCurrentQuantity(rows.value[index]);
-  }
+    if (isProductSelected) {
+        rows.value[index].productName = '';
+        rows.value[index].selectedProductError = true;
+    } else {
+        rows.value[index].selectedProductError = false;
+        fetchCurrentQuantity(rows.value[index]);
+    }
 };
 
 const fetchCurrentQuantity = async (row) => {
     const productId = row.productName.id;
-    if (productId)
-    {
+    if (productId) {
         try {
-        const response = await fetch(`/admin/current-stocks/${productId}`);
-        const result = await response.json();
-        if (result.result === 'Success') {
-            row.currentQuantity = result.data.quantity;
-        } else {
-            row.currentQuantity = 0;
-        }
+            const response = await fetch(`/admin/current-stocks/${productId}`);
+            const result = await response.json();
+            if (result.result === 'Success') {
+                row.currentQuantity = result.data.quantity;
+            } else {
+                row.currentQuantity = 0;
+            }
         } catch (error) {
-        console.error('Error fetching current quantity:', error);
+            console.error('Error fetching current quantity:', error);
         }
     }
 };
 
-
 const submitForm = () => {
-    const formData = {
-        data: rows.value,
-        _token: document.querySelector('meta[name="csrf-token"]').content, // Retrieve CSRF token
-    };
+    const formData = rows.value.map((row) => ({
+        productId: row.productName.id,
+        quantity: row.quantity,
+        currentQuantity: row.currentQuantity,
+        category: row.category,
+    }));
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     fetch('/admin/stocks', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': formData._token,
+            'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify(formData),
     })
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
-            successMessage.value = 'Stock has been stored successfully.';
             resetForm();
         })
         .catch((error) => {
             console.error('Error submitting form:', error);
-            // Handle error case
         });
 };
 
@@ -209,6 +207,7 @@ const resetForm = () => {
     ];
 };
 
+
 </script>
 
 
@@ -217,7 +216,9 @@ const resetForm = () => {
     text-align: right;
     margin-top: 10px;
 }
+
 .select-input {
-  width: 200px; /* Adjust the width as needed */
+    width: 200px;
+    /* Adjust the width as needed */
 }
 </style>

@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
     public function index()
     {
         return Inertia::render('Product');
@@ -46,7 +53,7 @@ class ProductController extends Controller
     public function productByCategory($category_id)
     {
         try {
-            $data = Product::where('category_id', $category_id)->get();
+            $data = $this->productService->categoryWiseProduct($category_id);
             $response = ['result' => 'Success', 'mgs' => 'Product list', 'data' => $data];
         } catch (\Exception $e) {
             $response = ['result' => 'Error', 'mgs' => $e->getMessage(), 'data' => null];

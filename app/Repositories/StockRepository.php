@@ -12,4 +12,12 @@ class StockRepository extends Repository implements IStockRepository
         parent::__construct($this->modelName);
     }
 
+    function productWiseStock($product_id)
+    {
+        $data = Stock::selectRaw('SUM(sign * qty) as quantity')
+        ->where('product_id', $product_id)
+        ->groupBy('product_id')
+        ->first();
+        return $data;
+    }
 }

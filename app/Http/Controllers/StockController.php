@@ -2,30 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Stock;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use DB;
+use App\Services\StockService;
 
 class StockController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $categories = Category::all();
+    protected $stockService;
 
-        return Inertia::render('Stock', compact('categories'));
+    public function __construct(StockService $stockService)
+    {
+        $this->stockService = $stockService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index()
+    {
+
+    }
+
     public function create()
     {
-        $categories = Category::all();
+        $categories = $this->stockService->getCategories();
 
         return Inertia::render('Stock', compact('categories'));
     }
@@ -73,11 +70,7 @@ class StockController extends Controller
     function getCurrentStock($product_id)
     {
         try {
-            $data = DB::table('stocks')
-            ->selectRaw('SUM(sign * qty) as quantity')
-            ->where('product_id', $product_id)
-            ->groupBy('product_id')
-            ->first();
+            $data = $this->stockService->productWiseStock($product_id);
             if($data)
                 $response = ['result' => 'Success', 'mgs' => 'Current Stock of Products', 'data' => $data];
             else

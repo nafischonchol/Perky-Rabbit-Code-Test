@@ -10,8 +10,8 @@ use Log;
 class StockService
 {
     protected $stockRepo;
-    protected $catRepo;
     protected $productRepo;
+    protected $catRepo;
 
     public function __construct(IStockRepository $stockRepo,ICategoryRepository $catRepo,
     IProductRepository $productRepo)

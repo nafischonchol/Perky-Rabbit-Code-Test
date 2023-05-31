@@ -12,9 +12,9 @@ class ProductRepository extends Repository implements IProductRepository
         parent::__construct($this->modelName);
     }
 
-    function all()
+    function allDesc()
     {
-        return $this->modelName::with("category")->get();
+        return $this->modelName::with("category")->orderBy("created_at","desc")->get();
     }
 
     function categoryWiseProduct($category_id)

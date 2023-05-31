@@ -75,32 +75,32 @@ import { defineProps } from 'vue';
 
 defineProps(['categories']);
 const rows = ref([
-  {
-    productName: '',
-    quantity: 0,
-    currentQuantity: 0,
-    category: '',
-    products: []
-  },
+    {
+        productName: '',
+        quantity: 0,
+        currentQuantity: 0,
+        category: '',
+        products: [],
+    },
 ]);
 
 const productsByCategory = reactive({});
 const successMessage = ref('');
 
 const addRow = () => {
-  rows.value.push({
-    productName: '',
-    quantity: 0,
-    currentQuantity: 0,
-    category: '',
-    products: [],
-  });
+    rows.value.push({
+        productName: '',
+        quantity: 0,
+        currentQuantity: 0,
+        category: '',
+        products: [],
+    });
 };
 
 const removeRow = (index) => {
-  if (index > 0) {
-    rows.value.splice(index, 1);
-  }
+    if (index > 0) {
+        rows.value.splice(index, 1);
+    }
 };
 
 const updateProductOptions = async (row) => {
@@ -189,6 +189,7 @@ const submitForm = () => {
         .then((data) => {
             console.log(data);
             resetForm();
+            successMessage.value = 'Stock created successfully.';
         })
         .catch((error) => {
             console.error('Error submitting form:', error);

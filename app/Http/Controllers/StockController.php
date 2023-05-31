@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StockCreateRequest;
 use Inertia\Inertia;
 use App\Services\StockService;
 use Log;
@@ -31,9 +32,17 @@ class StockController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StockCreateRequest $request)
     {
-        return \json_encode($request->input());
+        try {
+            $validatedData = $request->json()->all();
+            $data = $this->stockService->store($validatedData);
+            $response = ['result' => 'Success', 'mgs' => 'Store stock successfully!', 'data' => $data];
+
+        } catch (\Exception $e) {
+            $response = ['result' => 'Error', 'mgs' => $e->getMessage(), 'data' => null];
+        }
+        return \json_encode($response);
     }
 
     /**

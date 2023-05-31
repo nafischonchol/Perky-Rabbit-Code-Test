@@ -12,6 +12,11 @@ class ProductRepository extends Repository implements IProductRepository
         parent::__construct($this->modelName);
     }
 
+    function all()
+    {
+        return $this->modelName::with("category")->get();
+    }
+
     function categoryWiseProduct($category_id)
     {
         return Product::where('category_id', $category_id)->get();

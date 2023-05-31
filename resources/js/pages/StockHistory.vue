@@ -34,7 +34,7 @@
                 <tr v-for="item in history" :key="item.id">
                     <td class="px-6 py-4 whitespace-nowrap">{{ item.productName }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ item.categoryName }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ item.price }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">৳{{ item.price }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ item.qty }}</td>
                     <td class="px-6 py-4 whitespace-nowrap"
                         :class="{ 'text-red-500': item.sign === -1, 'text-green-500': item.sign === 1 }">

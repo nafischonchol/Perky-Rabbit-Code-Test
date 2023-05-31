@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Services\StockService;
+use Log;
 
 class StockController extends Controller
 {
@@ -70,6 +71,7 @@ class StockController extends Controller
     function getCurrentStock($product_id)
     {
         try {
+            // Log::info($product_id);
             $data = $this->stockService->productWiseStock($product_id);
             if($data)
                 $response = ['result' => 'Success', 'mgs' => 'Current Stock of Products', 'data' => $data];

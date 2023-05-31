@@ -106,10 +106,12 @@ const updateProductOptions = async (row) =>
     const category = row.category;
 
     if (category) {
-        try {
+        try
+        {
             const response = await fetch(`/admin/products-by-category/${category}`);
             const data = await response.json();
-            if (data.result == 'Success') {
+            if (data.result == 'Success')
+            {
 
                 const products = data.data.map((item) => ({
                     id: item.id,
@@ -122,8 +124,9 @@ const updateProductOptions = async (row) =>
             } else {
                 console.error('Error fetching product data:', data.mgs);
             }
-        } catch (error) {
-            console.error('Error fetching product data:', error);
+        }
+        catch (error) {
+            console.log('Error fetching product data');
         }
     }
     else {
@@ -150,23 +153,21 @@ const selectProduct = (index) => {
 };
 
 const fetchCurrentQuantity = async (row) => {
-  const productId = row.productName;
-  if (productId)
-  {
-    try {
-
-
-      const response = await fetch(`/admin/current-stocks/${productId}`);
-      const result = await response.json();
-      if (result.result === 'Success') {
-        row.currentQuantity = result.data.quantity;
-      } else {
-        row.currentQuantity = 0;
-      }
-    } catch (error) {
-      console.error('Error fetching current quantity:', error);
+    const productId = row.productName.id;
+    if (productId)
+    {
+        try {
+        const response = await fetch(`/admin/current-stocks/${productId}`);
+        const result = await response.json();
+        if (result.result === 'Success') {
+            row.currentQuantity = result.data.quantity;
+        } else {
+            row.currentQuantity = 0;
+        }
+        } catch (error) {
+        console.error('Error fetching current quantity:', error);
+        }
     }
-  }
 };
 
 

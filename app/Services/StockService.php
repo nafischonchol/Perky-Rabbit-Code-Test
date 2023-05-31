@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\Interface\IStockRepository;
 use App\Repositories\Interface\ICategoryRepository;
 use App\Repositories\Interface\IProductRepository;
+use Log;
 
 class StockService
 {
@@ -28,6 +29,7 @@ class StockService
 
     function productWiseStock($product_id)
     {
+        Log::info($product_id);
         if ($product_id === null)
             throw new \Exception("Product id is null");
         return $this->stockRepo->productWiseStock($product_id);

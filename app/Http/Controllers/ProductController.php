@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Services\ProductService;
+use Log;
 
 class ProductController extends Controller
 {

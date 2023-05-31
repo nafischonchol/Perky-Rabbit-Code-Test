@@ -20,7 +20,7 @@ class AuthenticateController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return Inertia::location('/');
+            return Inertia::location('/admin/products');
         }
 
         return back()->withErrors([

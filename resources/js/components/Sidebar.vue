@@ -13,17 +13,6 @@
           </Link>
         </li>
         <li>
-          <Link
-            href="#"
-            class="flex items-center space-x-2 text-gray-300 hover:text-white hover:bg-gray-700"
-            :class="{ active: activeMenuItem === 'users' }"
-            @click="setActiveMenuItem('users')"
-          >
-          <i class="fas fa-user"></i>
-            <span>Users</span>
-          </Link>
-        </li>
-        <li>
         <Link
           href="/admin/products"
           class="flex items-center space-x-2 text-gray-300 hover:text-white hover:bg-gray-700"

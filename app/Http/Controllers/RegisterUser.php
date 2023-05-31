@@ -36,6 +36,6 @@ class RegisterUser extends Controller
             Log::error( $e->getMessage());
             return Inertia::location('/login');
         }
-        return Inertia::location('/');
+        return Inertia::location('/admin/products');
     }
 }

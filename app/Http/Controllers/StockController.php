@@ -45,37 +45,30 @@ class StockController extends Controller
         }
         return \json_encode($response);
     }
+    public function show(string $id)
+    {
+        echo "he";
+    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Stock $stock)
+    public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Stock $stock)
+    public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Stock $stock)
+    public function delete($stock_id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Stock $stock)
-    {
-        //
+        try {
+            $this->stockService->delete($stock_id);
+        } catch(\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete stock item.');
+        }
+        return redirect()->back()->with('success', 'Stock item deleted successfully.');
     }
 
     function getCurrentStock($product_id)

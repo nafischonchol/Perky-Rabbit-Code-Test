@@ -15,7 +15,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('products', 'App\Http\Controllers\ProductController');
         Route::get('products-by-category/{category_id}', [ProductController::class, 'productByCategory']);
         Route::resource('stocks', 'App\Http\Controllers\StockController');
-        Route::get('current-stocks/{product_id}', [StockController::class, 'getCurrentStock']);
+        Route::get('delete/{stock_id}', [StockController::class,'delete']);
+        Route::get('current-stocks/{stock_id}', [StockController::class, 'getCurrentStock']);
     });
 
 });

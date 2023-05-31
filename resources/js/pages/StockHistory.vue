@@ -9,6 +9,14 @@
     <p class="text-white-600 mb-4">Here is a transection history of available products.</p>
 
     <div class="bg-white p-6 rounded-md">
+        <!-- <div v-if="$page.props.flash.success" class="text-green-500">
+            {{ $page.props.flash.success }}
+        </div>
+
+        <div v-if="$page.props.flash.error" class="text-red-500">
+            {{ $page.props.flash.error }}
+        </div> -->
+
         <h3 class="text-lg font-bold mb-4">Stock Table</h3>
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-200">
@@ -19,6 +27,7 @@
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Quantity</th>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Transection Type</th>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Time</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Action</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -32,6 +41,9 @@
                         {{ item.sign === 1 ? 'IN' : 'Out' }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ item.created_at }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <Link :href="`/admin/delete/${item.id}`" class="bg-red-500 text-white py-2 px-4 rounded">Delete</Link>
+                    </td>
                 </tr>
             </tbody>
         </table>

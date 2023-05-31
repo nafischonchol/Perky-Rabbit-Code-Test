@@ -60,4 +60,9 @@ class StockService
         }
         return $this->stockRepo->multipleStore($dataToInsert);
     }
+
+    function delete($stock_id)
+    {
+        return $this->stockRepo->delete($stock_id);
+    }
 }
